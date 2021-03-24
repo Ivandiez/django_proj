@@ -115,15 +115,15 @@ def registration(request):
             regform.save()          # save the changes after change some fields.
 
             return redirect('home') # переадресация на главную страницу после регистрации.
-        else:
-            regform = UserCreationForm()    # create the form object for input data.
+    else:
+        regform = UserCreationForm()    # create the form object for input data.
 
-        assert isinstance(request, HttpRequest)
-        return render(
-            request,
-            'app/registration.html',
-            {
-                'regform': regform,         # send the form to the pattern of web-page.
-                'year': datetime.now().year,
-            }
-        )
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/registration.html',
+        {
+            'regform': regform,         # send the form to the pattern of web-page.
+            'year': datetime.now().year,
+        }
+    )   
