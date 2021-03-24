@@ -1,0 +1,11 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<p>Полезные ссылки.</p>
+{% load staticfiles %}
+<a href ="https://ru-ru.facebook.com/" target="_blank"> <img src="{% static 'app/content/facebookimg.png' %}" alt="Logo 1"/></a>
+<a href ="https://www.instagram.com/" target="_blank"> <img src="{% static 'app/content/instimg.png' %}" alt="Logo 1"/></a>
+<a href ="https://vk.com/" target="_blank"> <img src="{% static 'app/content/vkimg.png' %}" alt="Logo 1"/></a>
+
+{% endblock %}

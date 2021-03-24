@@ -1,0 +1,87 @@
+﻿{% extends "app/layout.html" %}
+{% block content %}
+{% if form != None %}
+<br><h2>Отправьте, пожалуйста, заполненную анкету.</h2><br>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <label for="{{ form.name.id_for_label }}">{{ form.name.label }}:</label>
+            {{ form.name }}<br><br>
+            <label for="{{ form.city.id_for_label }}">{{ form.city.label }}:</label>
+            {{ form.city }}<br>
+            <label for="{{ form.gender.id_for_label }}">{{ form.gender.label }}:</label>
+            {{ form.gender }}
+            <label for="{{ form.job.id_for_label }}">{{ form.job.label }}:</label>
+            {{ form.job }}<br><br>
+            <label for="{{ form.internet.id_for_label }}">{{ form.internet.label }}:</label>
+            {{ form.internet }}<br><br>
+            <label for="{{ form.notice.id_for_label }}">{{ form.notice.label }}:</label>
+            {{ form.notice }}<br><br>
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+            {{ form.email }}<br><br>
+            <label for="{{ form.message.id_for_label }}">{{ form.message.label }}:</label>
+            {{ form.message }}<br><br>
+            <input id="sbmt" type="submit" value="Отправить">
+        </form>
+    </div>
+{% else %}
+<br><h2>Благодарим за предоставленную информацию.</h2>
+<h3>Вы сообщили о себе следующее:</h3>
+<ul>
+    <li><span>Имя:</span> {{ data.name }}</li>
+    <li><span>Город:</span> {{ data.city }}</li>
+    <li><span>Пол:</span> {{ data.gender }}</li>
+    <li><span>Работа:</span> {{ data.job }}</li>
+    <li><span>В интернете:</span> {{ data.internet }}</li>
+    <li><span>Получать новости сайта на e-mail:</span> 
+                {{ data.notice }}</li>
+    <li><span>Ваш e-mail:</span> {{ data.email }}</li>
+    <li><span>Информация о себе:</span> {{ data.message }}</li>
+</ul>
+{% endif %}
+<script>
+    function btn_ov() {
+        $('#sbmt').css('color', 'blue');
+    }
+
+    function btn_of() {
+        $('#sbmt').css('color', 'gray');
+    }
+
+    function txt_foc(id) { 
+        $(this).css('background-color', 'green'); 
+    }
+
+    function txt_blr(id) { 
+        $(this).css('background-color', 'white'); 
+    }
+
+    $('#sbmt').mouseover(btn_ov);
+    $('#sbmt').mouseout(btn_of);
+
+    $('#id_name').focus(txt_foc);
+    $('#id_name').blur(txt_blr);
+
+    $('#id_city').focus(txt_foc);
+    $('#id_city').blur(txt_blr);
+
+    $('#id_gender').focus(txt_foc);
+    $('#id_gender').blur(txt_blr);
+
+    $('#id_job').focus(txt_foc);
+    $('#id_job').blur(txt_blr);
+
+    $('#id_internet').focus(txt_foc);
+    $('#id_internet').blur(txt_blr);
+
+    $('#id_notice').focus(txt_foc);
+    $('#id_notice').blur(txt_blr);
+
+    $('#id_email').focus(txt_foc);
+    $('#id_email').blur(txt_blr);
+
+    $('#id_message').focus(txt_foc);
+    $('#id_message').blur(txt_blr);
+   
+</script>
+{% endblock %}
