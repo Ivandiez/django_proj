@@ -33,3 +33,21 @@ class Blog(models.Model):
 
 
 admin.site.register(Blog)
+
+
+class Comment(models.Model):
+    text = models.TextField(verbose_name = "Comment")
+    date = models.DateTimeField(default=datetime.now(), db_index=True, verbose_name='Date')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Author')
+    post = models.ForeignKey(Blog, on_delete=models.CASCADE, verbose_name='Post')
+
+    def __str__(self):
+        return 'Comment %s for %s' % (self.author, self.post)
+
+    class Meta:
+        db_table = 'Comments'
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments for blog posts'
+        ordering = ['-date']
+
+admin.site.register(Comment)

@@ -20,6 +20,8 @@ urlpatterns = [
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about$', app.views.about, name='about'),
     url(r'^links$', app.views.links, name='links'),
+    url(r'^blog', app.views.blog, name='blog'),
+    url(r'^(?P<parametr>\d+)/$', app.views.blogpost, name='blogpost'),
     url(r'^anketa$', app.views.anketa, name='anketa'),
     url(r'^registration$', app.views.registration, name='registration'),
     url(r'^login/$',

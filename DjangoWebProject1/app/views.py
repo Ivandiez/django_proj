@@ -6,11 +6,11 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
-
+from django.db import models
 from django.contrib.auth.forms import UserCreationForm
 
-from .forms import AnketaForm
-
+from .forms import AnketaForm, CommentForm
+from .models import Blog, Comment
 
 def home(request):
     """Renders the home page."""
@@ -34,6 +34,55 @@ def contact(request):
             'title':'Контакты',
             'message':'Ваша страница контактов.',
             'year':datetime.now().year,
+        }
+    )
+
+def blog(request):
+    """Renders the blog page."""
+    posts = Blog.objects.all()      # query for choose all posts from model
+
+    assert isinstance(request, HttpRequest)
+    return render(
+        request,
+        'app/blog.html',
+        {
+            'title': 'Blog',
+            'posts': posts,             # transfer list of posts in template of web-page
+            'year': datetime.now().year,
+
+        }
+    )
+
+def blogpost(request, parametr):
+    """Renders the blogpost page."""
+    post_1 = Blog.objects.get(id=parametr)      # query for choose specific post by parametr
+    comments = Comment.objects.filter(post=parametr)
+
+    if request.method == 'POST': # after send data to server by method - POST
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_f = form.save(commit=False)
+            comment_f.author = request.user # добавляем (так как этого поля нет в форме) в модель Комментария (Comment) 
+                                            # в поле автор авторизованного пользователя
+            comment_f.date = datetime.now() # добавляем в модель Комментария (Comment) текущую дату
+            comment_f.post = Blog.objects.get(id=parametr) # добавляем в модель Комментария (Comment) статью, для которой данный комментарий
+            comment_f.save() # сохраняем изменения после добавления полей
+            return redirect('blogpost', parametr=post_1.id) # переадресация на ту же страницу статьи после отправки комментария
+    else:
+        form = CommentForm() # создание формы для ввода комментария
+
+    
+    assert isinstance(request, HttpRequest)
+
+    return render(
+        request,
+        'app/blogpost.html',
+        {
+            'post_1': post_1,             # transfer specific post for template of web-page
+            'comments': comments,
+            'form': form,
+            'year': datetime.now().year,
+
         }
     )
 
